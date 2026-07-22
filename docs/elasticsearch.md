@@ -12,6 +12,8 @@ Elasticsearch is a highly scalable, open-source search and analytics engine buil
 
 [Running Search Query](#running-search-query)
 
+[Running Aggregation Query](#aggregation-query)
+
 [Running query in Kibana](#running-query-in-kibana)
 
 ## Create Index with a mapping

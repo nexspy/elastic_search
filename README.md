@@ -15,6 +15,8 @@ We are using docker container to run the services:
 
 [Kibana](#kibana)
 
+[Terminology](#terminology)
+
 ## Elastic Search Info
 
 Elasticsearch is a highly scalable, open-source search and analytics engine built on Apache Lucene. It stores data in flexible JSON format and uses "inverted indices" to deliver near-instant full-text search, data aggregation, and vector search capabilities across massive datasets
@@ -33,3 +35,12 @@ It allows you to
 - run machine learning models
 
 [Read more](./docs/kibana.md)
+
+## Terminology
+
+Index = table
+Document = row
+Mapping = schema/types
+Query DSL = advanced WHERE + ranking
+Aggregations = GROUP BY + metrics
+Kibana = UI for querying, exploring, dashboards
