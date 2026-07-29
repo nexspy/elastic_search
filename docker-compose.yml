@@ -28,6 +28,8 @@ services:
             - "5020:5020"
         environment:
             - NODE_ENV=production
+            - ELASTICSEARCH_URL=http://elasticsearch:9200
+            - ELASTICSEARCH_INDEX=express-demo
         volumes:
             - ./backend:/app
             - /app/node_modules
