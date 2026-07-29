@@ -29,7 +29,7 @@ services:
         environment:
             - NODE_ENV=production
             - ELASTICSEARCH_URL=http://elasticsearch:9200
-            - ELASTICSEARCH_INDEX=express-demo
+            - ELASTICSEARCH_INDEX=products
         volumes:
             - ./backend:/app
             - /app/node_modules

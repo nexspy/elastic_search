@@ -4,7 +4,7 @@ import { Client } from "@elastic/elasticsearch";
 const app: Express = express();
 app.use(express.json());
 
-const indexName = process.env.ELASTICSEARCH_INDEX || "express-demo";
+const indexName = process.env.ELASTICSEARCH_INDEX || "products";
 
 //! Create a new instance of the Elasticsearch client
 const client = new Client({
