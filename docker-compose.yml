@@ -22,18 +22,21 @@ services:
         networks:
             - elastic-net
 
-    # express-api:
-    #     build: .
-    #     container_name: express-api-test
-    #     ports:
-    #         - "3000:3000"
-    #     environment:
-    #         - NODE_ENV=production
-    #     depends_on:
-    #         elasticsearch:
-    #             condition: service_healthy # Wait until ES healthcheck passes
-    #     networks:
-    #         - elastic-net
+    express-backend:
+        build: ./backend
+        ports:
+            - "5020:5020"
+        environment:
+            - NODE_ENV=production
+        volumes:
+            - ./backend:/app
+            - /app/node_modules
+        depends_on:
+            elasticsearch:
+                condition: service_healthy # Wait until ES healthcheck passes
+
+        networks:
+            - elastic-net
 
     kibana:
         image: docker.elastic.co/kibana/kibana:8.15.0
