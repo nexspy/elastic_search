@@ -11,11 +11,19 @@ We are using docker container to run the services:
 
 ### Table of Content
 
+[Setup and Run](#setup-and-run)
+
 [Elastic Search](#elastic-search-info)
 
 [Kibana](#kibana)
 
 [Terminology](#terminology)
+
+## Setup and Run
+
+Docker is being used
+
+[View docs](./docs/setup.md)
 
 ## Elastic Search Info
 
