@@ -8,8 +8,11 @@ We are using docker container to run the services:
 
 - elasticsearch
 - kibana
+- backend (expressjs)
 
 ### Table of Content
+
+[Architecture / How it works](#architecture--how-it-works)
 
 [Setup and Run](#setup-and-run)
 
@@ -18,6 +21,14 @@ We are using docker container to run the services:
 [Kibana](#kibana)
 
 [Terminology](#terminology)
+
+## Architecture / How it works
+
+We run the docker and all services start. If not, check docker desktop application and run them as Kibana requires elasticsearch service to start and run first.
+
+We have endpoint in our backend named **/demo** where we can send POST request, that data (json) will be indexed as document. Now, the data has entered Elasticsearch.
+
+We can visually see these data in elasticsearch using the **Kibana** tool. Build dashboards, view spatial data in maps, and build tons of things yet to explore.
 
 ## Setup and Run
 
