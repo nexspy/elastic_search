@@ -5,12 +5,6 @@ import type {
 } from "../types/property/Property.type.ts";
 
 export class PropertyService {
-	private pool: Pool;
-
-	constructor(pool: Pool) {
-		this.pool = pool;
-	}
-
 	/**
 	 * Get properties within the specified area bounds.
 	 * @param area AreaBounds
@@ -20,26 +14,7 @@ export class PropertyService {
 	public async getPropertiesInArea(
 		area: AreaBounds,
 	): Promise<GetPropertiesInAreaResponse> {
-		const result = await this.pool.query(
-			`
-			SELECT
-				id,
-				property_code,
-				title,
-				owner_name,
-				property_type,
-				bedrooms,
-				listed_price,
-				ST_AsGeoJSON(plot_geom)::json AS plot_geojson,
-				ST_AsGeoJSON(centroid_geom)::json AS centroid_geojson
-			FROM properties
-			WHERE plot_geom && ST_MakeEnvelope($1, $2, $3, $4, 4326)
-			  AND ST_Intersects(plot_geom, ST_MakeEnvelope($1, $2, $3, $4, 4326))
-			ORDER BY id;
-			`,
-			[area.minLon, area.minLat, area.maxLon, area.maxLat],
-		);
-
+		//TODO : replace by data from elasticsearch
 		return {
 			bounds: {
 				minLon: area.minLon,
@@ -47,8 +22,60 @@ export class PropertyService {
 				maxLon: area.maxLon,
 				maxLat: area.maxLat,
 			},
-			count: result.rowCount,
-			properties: result.rows,
+			count: 2,
+			properties: [
+				// add dummy data in type of PropertyInAreaItem
+				{
+					id: "1",
+					property_code: "P001",
+					title: "Property 1",
+					owner_name: "Owner 1",
+					property_type: "residential",
+					bedrooms: 3,
+					listed_price: "100000",
+					plot_geojson: {
+						type: "Polygon",
+						coordinates: [
+							[
+								[0, 0],
+								[0, 1],
+								[1, 1],
+								[1, 0],
+								[0, 0],
+							],
+						],
+					},
+					centroid_geojson: {
+						type: "Point",
+						coordinates: [0.5, 0.5],
+					},
+				},
+				{
+					id: "2",
+					property_code: "P002",
+					title: "Property 2",
+					owner_name: "Owner 2",
+					property_type: "commercial",
+					bedrooms: null,
+					listed_price: "200000",
+					plot_geojson: {
+						type: "Polygon",
+						coordinates: [
+							[
+								[1, 1],
+								[1, 2],
+								[2, 2],
+								[2, 1],
+								[1, 1],
+							],
+						],
+					},
+					centroid_geojson: {
+						type: "Point",
+						coordinates: [1.5, 1.5],
+					},
+				},
+			],
 		};
 	}
 }

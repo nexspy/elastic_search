@@ -30,7 +30,7 @@ export async function getPropertiesInArea(req: any, res: any, next: any) {
 	let result: GetPropertiesInAreaResponse | null = null;
 
 	try {
-		const propService = new PropertyService(DatabasePoolService.getPool());
+		const propService = new PropertyService();
 
 		result = await propService.getPropertiesInArea({
 			minLon,
