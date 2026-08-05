@@ -39,6 +39,16 @@ services:
 
         networks:
             - elastic-net
+    frontend:
+        build: ./frontend
+        ports:
+            - "3020:3020"
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        environment:
+            - WDS_SOCKET_PORT=0
+            - PORT=3020
 
     kibana:
         image: docker.elastic.co/kibana/kibana:8.15.0
