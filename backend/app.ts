@@ -1,11 +1,11 @@
-import express, { type Express, type Request, type Response } from "express";
+import express from "express";
 import cors from "cors";
-import { Client } from "@elastic/elasticsearch";
+import { DatabasePoolService } from "./src/services/database.service.ts";
 
-const app: Express = express();
-app.use(express.json());
+import routes from "./src/routes/index.ts";
 
-const indexName = process.env.ELASTICSEARCH_INDEX || "products";
+const app = express();
+const port = process.env.PORT || 5020;
 
 // allow CORS
 app.use(
@@ -14,53 +14,10 @@ app.use(
 	}),
 );
 
-//! Create a new instance of the Elasticsearch client
-const client = new Client({
-	node: process.env.ELASTICSEARCH_URL || "http://localhost:9200",
+DatabasePoolService.initializePool();
+
+app.use(routes);
+
+app.listen(port, () => {
+	console.log(`Server running at http://localhost:${port}`);
 });
-
-app.get("/", (req: Request, res: Response) => {
-	res.send("Hello World!");
-});
-
-app.get("/health", async (_req: Request, res: Response) => {
-	try {
-		const result = await client.ping();
-		res.json({ ok: true, elasticsearch: result });
-	} catch (error) {
-		const message =
-			error instanceof Error ? error.message : "Unknown error";
-		res.status(500).json({ ok: false, error: message });
-	}
-});
-
-//! Endpoint to index a document in Elasticsearch
-app.post("/demo", async (req: Request, res: Response) => {
-	try {
-		const document = {
-			message: "Hello from Express",
-			...req.body,
-			timestamp: new Date().toISOString(),
-		};
-
-		const response = await client.index({
-			index: indexName,
-			document,
-		});
-
-		res.status(201).json({
-			success: true,
-			id: response._id,
-			index: response._index,
-			document,
-		});
-	} catch (error) {
-		const message =
-			error instanceof Error ? error.message : "Unknown error";
-		res.status(502).json({ success: false, error: message });
-	}
-});
-
-//TODO: Add more endpoints for searching, updating, and deleting documents in Elasticsearch as needed.
-
-app.listen(5020);
