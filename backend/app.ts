@@ -1,10 +1,18 @@
 import express, { type Express, type Request, type Response } from "express";
+import cors from "cors";
 import { Client } from "@elastic/elasticsearch";
 
 const app: Express = express();
 app.use(express.json());
 
 const indexName = process.env.ELASTICSEARCH_INDEX || "products";
+
+// allow CORS
+app.use(
+	cors({
+		origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+	}),
+);
 
 //! Create a new instance of the Elasticsearch client
 const client = new Client({
