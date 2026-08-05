@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+@import "react-leaflet-markercluster/styles";
+
+/* Custom css / styles */
+@import "./css/leaflet.css";
 
 :root {
 	--background: #ffffff;

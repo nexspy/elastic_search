@@ -1,0 +1,31 @@
+.leaflet-popup-content-wrapper {
+	color: white;
+	background: #1d293d; /* amber-400 */
+	border-radius: 8px;
+	padding: 0;
+	box-shadow: none;
+}
+
+.leaflet-popup-content {
+	margin: 0;
+	padding: 12px;
+}
+
+.leaflet-popup-tip {
+	background: #1d293d;
+}
+
+/* Polyogon corner shape */
+.leaflet-div-icon {
+	background: #3b82f6;
+	border: 2px solid white;
+	border-radius: 50%; /* makes it a circle */
+}
+.leaflet-draw-guide-dash {
+	width: 2px !important; /* matches dashArray "2" */
+	height: 2px !important;
+	margin: 2px !important; /* approximates the "4" gap */
+	border-radius: 50%;
+	background: #3b82f6 !important;
+	opacity: 0.8;
+}
