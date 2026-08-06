@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: "PostGIS Application",
-	description: "Property and Spatial Data Management with PostGIS",
+	title: "Elastic Search with PostGIS",
+	description:
+		"Property and Spatial Data Management with Elastic Search and PostGIS",
 };
 
 export default function RootLayout({
