@@ -25,6 +25,7 @@ import { MarkerType } from "@/app/types/Marker.type";
 import { LeafletSearchFilters } from "./LeafletSearchFilters";
 import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
+import { PropertyModalView } from "./PropertyModalView";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
@@ -78,6 +79,7 @@ export const LeafletMapView = () => {
 	const [zoomLevel, setZoomLevel] = useState<number>(18);
 	const [showSearch, setShowSearch] = useState<boolean>(false);
 	const [showDrawTools, setShowDrawTools] = useState<boolean>(false);
+	const [showModalView, setShowModalView] = useState<boolean>(true);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
 
 	return (
@@ -229,6 +231,8 @@ export const LeafletMapView = () => {
 					/>
 				)}
 			</MapContainer>
+
+			{showModalView && <PropertyModalView />}
 		</div>
 	);
 };
