@@ -25,7 +25,7 @@ import { MarkerType } from "@/app/types/Marker.type";
 import { LeafletSearchFilters } from "./LeafletSearchFilters";
 import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
-import { PropertyModalView } from "./PropertyModalView";
+import { PropertyModalView } from "./modal/PropertyModalView";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
