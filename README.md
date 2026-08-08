@@ -20,6 +20,8 @@ We are using docker container to run the services:
 
 [Kibana](#kibana)
 
+[Backend](#backend)
+
 [Terminology](#terminology)
 
 ## Architecture / How it works
@@ -56,6 +58,12 @@ It allows you to
 - run machine learning models
 
 [Read more](./docs/kibana.md)
+
+## Backend
+
+View backend related stuff.
+
+[Read more](./docs/backend.md)
 
 ## Terminology
 
