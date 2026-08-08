@@ -19,21 +19,21 @@ export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 						<IoCloseSharp size={24} />
 					</button>
 					<div className="bg-white p-6 rounded-sm shadow-lg flex-1 hover:bg-amber-50">
-						<h3 className="text-amber-800 text-lg font-bold">
+						<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 							Property Name
 						</h3>
 						<p>{propertyView.name}</p>
 					</div>
 
 					<div className="bg-white p-6 rounded-sm shadow-lg flex-1 hover:bg-amber-50">
-						<h3 className="text-amber-800 text-lg font-bold">
+						<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 							Property Location
 						</h3>
 						<p>{propertyView.location}</p>
 					</div>
 
 					<div className="bg-white p-6 rounded-sm shadow-lg flex-1 hover:bg-amber-50">
-						<h3 className="text-amber-800 text-lg font-bold">
+						<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 							Property Price
 						</h3>
 						<p className="flex flex-row gap-2 items-center">
@@ -48,7 +48,7 @@ export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 				<div className="flex flex-row gap-4 min-h-[30vh]">
 					<div className="bg-white p-6 rounded-sm shadow-lg flex-2 hover:bg-amber-50">
 						<div className="flex justify-center items-center h-full">
-							<h3 className="text-amber-800">
+							<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 								Map View {"<TBD>"}
 							</h3>
 						</div>
@@ -56,7 +56,7 @@ export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 
 					<div className="bg-white p-6 rounded-sm shadow-lg flex-1 flex flex-col gap-4 hover:bg-amber-50">
 						<div>
-							<h3 className="text-amber-800 text-lg font-bold">
+							<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 								Description
 							</h3>
 							<p className="text-sm">
@@ -65,7 +65,7 @@ export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 						</div>
 
 						<div>
-							<h3 className="text-amber-800 text-lg font-bold">
+							<h3 className="text-amber-800 text-lg font-bold transition-all duration-100 ease-in hover:scale-105">
 								Chart
 							</h3>
 							<p>TBD</p>
