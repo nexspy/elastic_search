@@ -1,4 +1,8 @@
-export const PropertyModalView = () => {
+interface Props {
+	onClose?: () => void;
+}
+
+export const PropertyModalView = ({ onClose }: Props) => {
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 			<div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -10,7 +14,10 @@ export const PropertyModalView = () => {
 					Description: This is a beautiful property located in a prime
 					area.
 				</p>
-				<button className="px-4 py-2 mt-4 text-white bg-amber-500 rounded hover:bg-amber-600 cursor-pointer">
+				<button
+					className="px-4 py-2 mt-4 text-white bg-amber-500 rounded hover:bg-amber-600 cursor-pointer"
+					onClick={onClose}
+				>
 					Close
 				</button>
 			</div>

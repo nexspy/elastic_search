@@ -232,7 +232,9 @@ export const LeafletMapView = () => {
 				)}
 			</MapContainer>
 
-			{showModalView && <PropertyModalView />}
+			{showModalView && (
+				<PropertyModalView onClose={() => setShowModalView(false)} />
+			)}
 		</div>
 	);
 };
