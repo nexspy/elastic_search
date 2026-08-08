@@ -21,25 +21,55 @@ const storage = multer.diskStorage({
 	},
 });
 
-const upload = multer({ storage });
+//* this stores the file locally as well
+// const upload = multer({ storage });
+
+//* this stores the file in memory as a buffer
+const upload = multer({
+	storage: multer.memoryStorage(),
+	limits: { fileSize: 35 * 1024 * 1024 },
+}); // Limit file size to 35MB
 
 // POST route to handle file upload
-router.post("/upload", upload.single("file"), (req: any, res: any) => {
-	if (!req.file) {
-		return res.status(400).json({ error: "No file uploaded" });
-	}
+router.post("/upload", (req, res) => {
+	upload.single("file")(req, res, (err) => {
+		if (err instanceof multer.MulterError) {
+			if (err.code === "LIMIT_FILE_SIZE") {
+				return res.status(413).json({
+					error: "File too large",
+					message: "Maximum allowed file size is 35MB",
+				});
+			}
 
-	const fileData = {
-		filename: req.file.originalname,
-		extension: path.extname(req.file.originalname).toLowerCase(),
-		mimetype: req.file.mimetype,
-		size: req.file.size,
-		path: req.file.path,
-	};
+			return res.status(400).json({
+				error: "Upload error",
+				message: err.message,
+				code: err.code,
+			});
+		}
 
-	res.status(200).json({
-		message: "File uploaded successfully",
-		file: fileData,
+		if (err) {
+			return res.status(500).json({
+				error: "Unexpected upload error",
+				message: "Failed to process upload",
+			});
+		}
+
+		if (!req.file) {
+			return res.status(400).json({ error: "No file uploaded" });
+		}
+
+		const fileData = {
+			filename: req.file.originalname,
+			extension: path.extname(req.file.originalname).toLowerCase(),
+			mimetype: req.file.mimetype,
+			size: req.file.size,
+		};
+
+		return res.status(200).json({
+			message: "File uploaded successfully",
+			file: fileData,
+		});
 	});
 });
 
