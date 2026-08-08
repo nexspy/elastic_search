@@ -216,6 +216,14 @@ export const LeafletMapView = () => {
 								onClick={() => {
 									setSelectedProperty(sampleProperty);
 									setShowModalView(true);
+
+									// close the popup
+									const popup = document.querySelector(
+										".leaflet-popup-close-button",
+									) as HTMLElement;
+									if (popup) {
+										popup.click();
+									}
 								}}
 								className="text-lg font-bold cursor-pointer hover:text-amber-500"
 							>
@@ -226,6 +234,14 @@ export const LeafletMapView = () => {
 								onClick={() => {
 									setSelectedProperty(sampleProperty);
 									setShowModalView(true);
+
+									// close the popup
+									const popup = document.querySelector(
+										".leaflet-popup-close-button",
+									) as HTMLElement;
+									if (popup) {
+										popup.click();
+									}
 								}}
 								className="cursor-pointer text-amber-950 bg-amber-400 hover:bg-amber-300 rounded-sm px-4 py-2"
 							>
