@@ -72,14 +72,6 @@ const samplePolygons: {
 	},
 ];
 
-const selectedProperty: PropertyViewType = {
-	id: "1",
-	name: "London Property",
-	location: "123 Main St, London, UK",
-	price: 500000,
-	description: "This is a beautiful property located in a prime area.",
-};
-
 export const LeafletMapView = () => {
 	const router = useRouter();
 	const markerPositions: MarkerType[] = [];
@@ -89,6 +81,16 @@ export const LeafletMapView = () => {
 	const [showDrawTools, setShowDrawTools] = useState<boolean>(false);
 	const [showModalView, setShowModalView] = useState<boolean>(true);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
+
+	const sampleProperty: PropertyViewType = {
+		id: "1",
+		name: "London Property",
+		location: "123 Main St, London, UK",
+		price: 500000,
+		description: "This is a beautiful property located in a prime area.",
+	};
+	const [selectedProperty, setSelectedProperty] =
+		useState<PropertyViewType | null>(null);
 
 	return (
 		<div
@@ -210,8 +212,25 @@ export const LeafletMapView = () => {
 						pathOptions={{ color: polygon.color, fillOpacity: 0.3 }}
 					>
 						<Popup>
-							<h2>{polygon.label}</h2>
+							<h2
+								onClick={() => {
+									setSelectedProperty(sampleProperty);
+									setShowModalView(true);
+								}}
+								className="text-lg font-bold cursor-pointer hover:text-amber-500"
+							>
+								{polygon.label}
+							</h2>
 							<p>{polygon.summary}</p>
+							<button
+								onClick={() => {
+									setSelectedProperty(sampleProperty);
+									setShowModalView(true);
+								}}
+								className="cursor-pointer text-amber-950 bg-amber-400 hover:bg-amber-300 rounded-sm px-4 py-2"
+							>
+								View
+							</button>
 						</Popup>
 					</Polygon>
 				))}
@@ -240,7 +259,7 @@ export const LeafletMapView = () => {
 				)}
 			</MapContainer>
 
-			{showModalView && (
+			{selectedProperty && showModalView && (
 				<PropertyModalView
 					propertyView={selectedProperty}
 					onClose={() => setShowModalView(false)}
