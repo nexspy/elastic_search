@@ -10,7 +10,7 @@ interface Props {
 export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs">
-			<div className=" w-[50%] flex flex-col gap-4">
+			<div className=" w-[50%] flex flex-col gap-4 modal-content-fade-in">
 				<div className="relative flex flex-row gap-4 justify-between">
 					<button
 						className="absolute -top-10 right-0 text-white cursor-pointer hover:text-amber-300"

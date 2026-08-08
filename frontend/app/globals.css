@@ -3,6 +3,7 @@
 @import "react-leaflet-markercluster/styles";
 
 /* Custom css / styles */
+@import "./css/animate.css";
 @import "./css/leaflet.css";
 
 :root {
