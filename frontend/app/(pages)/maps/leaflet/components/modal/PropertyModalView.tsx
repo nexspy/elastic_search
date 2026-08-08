@@ -36,7 +36,12 @@ export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 						<h3 className="text-amber-800 text-lg font-bold">
 							Property Price
 						</h3>
-						<p>£ {propertyView.price}</p>
+						<p className="flex flex-row gap-2 items-center">
+							£ {propertyView.price}{" "}
+							<span className="text-green-800 bg-green-100 text-xs p-2 rounded-lg">
+								+ 0.20%
+							</span>
+						</p>
 					</div>
 				</div>
 
