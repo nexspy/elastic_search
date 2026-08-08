@@ -10,7 +10,6 @@ import {
 	Polygon,
 } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import Link from "next/link";
 
 import { IoMdHome, IoMdSearch } from "react-icons/io";
 import { BsSlashLg } from "react-icons/bs";
@@ -26,6 +25,7 @@ import { LeafletSearchFilters } from "./LeafletSearchFilters";
 import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
 import { PropertyModalView } from "./modal/PropertyModalView";
+import { PropertyViewType } from "@/app/types/Property.type";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
@@ -71,6 +71,14 @@ const samplePolygons: {
 		summary: "This is Zone C, a designated area for mixed-use properties.",
 	},
 ];
+
+const selectedProperty: PropertyViewType = {
+	id: "1",
+	name: "London Property",
+	location: "123 Main St, London, UK",
+	price: 500000,
+	description: "This is a beautiful property located in a prime area.",
+};
 
 export const LeafletMapView = () => {
 	const router = useRouter();
@@ -233,7 +241,10 @@ export const LeafletMapView = () => {
 			</MapContainer>
 
 			{showModalView && (
-				<PropertyModalView onClose={() => setShowModalView(false)} />
+				<PropertyModalView
+					propertyView={selectedProperty}
+					onClose={() => setShowModalView(false)}
+				/>
 			)}
 		</div>
 	);
