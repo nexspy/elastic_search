@@ -77,7 +77,7 @@ export const LeafletMapView = () => {
 	const markerPositions: MarkerType[] = [];
 
 	const [zoomLevel, setZoomLevel] = useState<number>(18);
-	const [showSearch, setShowSearch] = useState<boolean>(false);
+	const [showSearch, setShowSearch] = useState<boolean>(true);
 	const [showDrawTools, setShowDrawTools] = useState<boolean>(false);
 	const [showModalView, setShowModalView] = useState<boolean>(true);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
