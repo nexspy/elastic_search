@@ -106,8 +106,8 @@ export const LeafletMapView = () => {
 				)}
 
 				{showDrawTools && (
-					<div className="px-4 py-2 flex flex-row justify-between gap-4 rounded-lg bg-slate-800 shadow-2xl">
-						<div className="flex flex-row gap-4">
+					<div className="px-6 py-4 flex flex-row justify-between gap-4 rounded-lg bg-slate-800 shadow-2xl">
+						<div className="flex flex-row gap-6">
 							<BsSlashLg
 								size={toolSize}
 								color={toolColour}
