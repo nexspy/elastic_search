@@ -9,7 +9,7 @@ interface Props {
 
 export const PropertyModalView = ({ propertyView, onClose }: Props) => {
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs">
 			<div className=" w-[50%] flex flex-col gap-4">
 				<div className="relative flex flex-row gap-4 justify-between">
 					<button

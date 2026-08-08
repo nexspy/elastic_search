@@ -5,7 +5,7 @@ interface Props {
 
 export const ConfirmModalView = ({ onConfirm, onClose }: Props) => {
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs">
 			<div className="bg-white p-6 rounded-lg shadow-lg w-96">
 				<h2 className="text-xl font-semibold mb-4">Are you sure?</h2>
 				<p className="mb-2">Property Name: Example Property</p>
