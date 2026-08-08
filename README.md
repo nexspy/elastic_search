@@ -30,6 +30,8 @@ We have endpoint in our backend named **/demo** where we can send POST request, 
 
 We can visually see these data in elasticsearch using the **Kibana** tool. Build dashboards, view spatial data in maps, and build tons of things yet to explore.
 
+![architecture](./docs/assets/architecture.png)
+
 ## Setup and Run
 
 Docker is being used
