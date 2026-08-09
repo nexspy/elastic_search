@@ -8,6 +8,7 @@ import {
 	Popup,
 	ZoomControl,
 	Polygon,
+	useMapEvents,
 } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 
@@ -39,6 +40,24 @@ const toolColour = "#d8d8d0";
 const startingPosition: [number, number] = [
 	51.52975152891632, -0.1160599992007142,
 ];
+
+// small component to log map move events
+const MapMoveLogger = () => {
+	useMapEvents({
+		moveend: (event) => {
+			const map = event.target;
+			const center = map.getCenter();
+
+			console.log("map moved", {
+				center: [center.lat, center.lng],
+				zoom: map.getZoom(),
+				bounds: map.getBounds().toBBoxString(),
+			});
+		},
+	});
+
+	return null;
+};
 
 interface Props {
 	properties: PropertyInAreaItem[];
@@ -188,6 +207,9 @@ export const LeafletMapView = ({ properties }: Props) => {
 				zoomControl={false}
 				style={{ height: "100%", width: "100%", zIndex: 0 }}
 			>
+				{/* //! Map move event handler */}
+				<MapMoveLogger />
+
 				<ZoomControl position="topright" />
 
 				<TileLayer
