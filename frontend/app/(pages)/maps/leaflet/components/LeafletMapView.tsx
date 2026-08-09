@@ -72,11 +72,13 @@ export const LeafletMapView = ({ properties }: Props) => {
 			setPropertiesList([]);
 			return;
 		}
-		const convertedProperties = convertPropertyInAreaItemToPropertyViewType(
-			properties[0],
+
+		// convert all properties in the array
+		const convertedPropertiesArray = properties.map((property) =>
+			convertPropertyInAreaItemToPropertyViewType(property),
 		);
-		console.log("convertedProperties", convertedProperties);
-		setPropertiesList([convertedProperties]);
+
+		setPropertiesList(convertedPropertiesArray);
 	}, [properties]);
 
 	return (
