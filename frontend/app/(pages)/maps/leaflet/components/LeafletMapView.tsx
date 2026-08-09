@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	MapContainer,
 	TileLayer,
@@ -25,54 +25,26 @@ import { LeafletSearchFilters } from "./LeafletSearchFilters";
 import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
 import { PropertyModalView } from "./modal/PropertyModalView";
-import { PropertyViewType } from "@/app/types/Property.type";
+import {
+	PropertyInAreaItem,
+	PropertyMapItem,
+	PropertyViewType,
+} from "@/app/types/Property.type";
+import { convertPropertyInAreaItemToPropertyViewType } from "@/app/util/property.util";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
 
-const samplePolygons: {
-	positions: [number, number][];
-	color: string;
-	label: string;
-	summary: string;
-}[] = [
-	{
-		positions: [
-			[51.509, -0.11],
-			[51.512, -0.1],
-			[51.51, -0.08],
-			[51.507, -0.09],
-		],
-		color: "#3b82f6",
-		label: "Zone A",
-		summary:
-			"This is Zone A, a designated area for residential properties.",
-	},
-	{
-		positions: [
-			[51.5, -0.095],
-			[51.502, -0.075],
-			[51.498, -0.07],
-			[51.495, -0.085],
-		],
-		color: "#ef4444",
-		label: "Zone B",
-		summary: "This is Zone B, a designated area for commercial properties.",
-	},
-	{
-		positions: [
-			[51.505, -0.12],
-			[51.508, -0.115],
-			[51.506, -0.105],
-			[51.503, -0.11],
-		],
-		color: "#22c55e",
-		label: "Zone C",
-		summary: "This is Zone C, a designated area for mixed-use properties.",
-	},
+//! Starting position
+const startingPosition: [number, number] = [
+	51.52975152891632, -0.1160599992007142,
 ];
 
-export const LeafletMapView = () => {
+interface Props {
+	properties: PropertyInAreaItem[];
+}
+
+export const LeafletMapView = ({ properties }: Props) => {
 	const router = useRouter();
 	const markerPositions: MarkerType[] = [];
 
@@ -82,6 +54,9 @@ export const LeafletMapView = () => {
 	const [showModalView, setShowModalView] = useState<boolean>(true);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
 
+	const [propertiesList, setPropertiesList] = useState<PropertyMapItem[]>([]);
+
+	// this is the property we see in the modal view
 	const sampleProperty: PropertyViewType = {
 		id: "1",
 		name: "London Property",
@@ -91,6 +66,18 @@ export const LeafletMapView = () => {
 	};
 	const [selectedProperty, setSelectedProperty] =
 		useState<PropertyViewType | null>(null);
+
+	useEffect(() => {
+		if (properties.length === 0) {
+			setPropertiesList([]);
+			return;
+		}
+		const convertedProperties = convertPropertyInAreaItemToPropertyViewType(
+			properties[0],
+		);
+		console.log("convertedProperties", convertedProperties);
+		setPropertiesList([convertedProperties]);
+	}, [properties]);
 
 	return (
 		<div
@@ -194,7 +181,7 @@ export const LeafletMapView = () => {
 			</div>
 
 			<MapContainer
-				center={[51.505, -0.095]}
+				center={startingPosition}
 				zoom={zoomLevel}
 				zoomControl={false}
 				style={{ height: "100%", width: "100%", zIndex: 0 }}
@@ -207,7 +194,7 @@ export const LeafletMapView = () => {
 				/>
 
 				{/* //! Shapes to draw */}
-				{samplePolygons.map((polygon, idx) => (
+				{propertiesList.map((polygon, idx) => (
 					<Polygon
 						key={idx}
 						positions={polygon.positions}
