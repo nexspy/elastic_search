@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import { XMLParser } from "fast-xml-parser";
 import { extractFeaturesFromXML } from "../util/xmlReader.util.ts";
+import { GMLReaderService } from "../services/gmlReader.service.ts";
 
 const router = Router();
 
@@ -61,30 +62,7 @@ router.post("/upload", (req, res) => {
 			return res.status(400).json({ error: "No file uploaded" });
 		}
 
-		const xmlText = req.file.buffer.toString("utf-8");
-
-		const parser = new XMLParser({
-			ignoreAttributes: false,
-			attributeNamePrefix: "",
-			removeNSPrefix: true,
-			trimValues: true,
-		});
-
-		const parsed = parser.parse(xmlText);
-		const features = extractFeaturesFromXML(parsed);
-
-		console.log("🚀 Extracted features:", features.length);
-		if (features.length > 0) {
-			console.log("🚀 First item:", features[0]);
-			console.log("🚀 Coordinates:", features[0].geometry.coordinates);
-		}
-
-		const fileData = {
-			filename: req.file.originalname,
-			extension: path.extname(req.file.originalname).toLowerCase(),
-			mimetype: req.file.mimetype,
-			size: req.file.size,
-		};
+		const fileData = GMLReaderService.readGMLFile(req.file);
 
 		return res.status(200).json({
 			message: "File uploaded successfully",
