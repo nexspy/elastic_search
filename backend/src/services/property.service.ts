@@ -22,7 +22,7 @@ export class PropertyService {
 				maxLon: area.maxLon,
 				maxLat: area.maxLat,
 			},
-			count: 2,
+			count: 1,
 			properties: [
 				// add dummy data in type of PropertyInAreaItem
 				{
@@ -36,43 +36,25 @@ export class PropertyService {
 					plot_geojson: {
 						type: "Polygon",
 						coordinates: [
-							[
-								[0, 0],
-								[0, 1],
-								[1, 1],
-								[1, 0],
-								[0, 0],
-							],
+							[530716.35, 182789.85],
+							[530719, 182782.5],
+							[530720.45, 182778.5],
+							[530722.8, 182771.95],
+							[530722.9, 182771.7],
+							[530723.35, 182770.35],
+							[530728.25, 182772.2],
+							[530734.25, 182774.35],
+							[530734.7, 182774.5],
+							[530737.8, 182775.7],
+							[530736.6, 182776.7],
+							[530726.9, 182785.3],
+							[530720.1, 182791.25],
+							[530716.35, 182789.85],
 						],
 					},
 					centroid_geojson: {
 						type: "Point",
 						coordinates: [0.5, 0.5],
-					},
-				},
-				{
-					id: "2",
-					property_code: "P002",
-					title: "Property 2",
-					owner_name: "Owner 2",
-					property_type: "commercial",
-					bedrooms: null,
-					listed_price: "200000",
-					plot_geojson: {
-						type: "Polygon",
-						coordinates: [
-							[
-								[1, 1],
-								[1, 2],
-								[2, 2],
-								[2, 1],
-								[1, 1],
-							],
-						],
-					},
-					centroid_geojson: {
-						type: "Point",
-						coordinates: [1.5, 1.5],
 					},
 				},
 			],

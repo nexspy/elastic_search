@@ -12,7 +12,7 @@ export type AreaBounds = {
  */
 export type GeoJsonPolygon = {
 	type: "Polygon";
-	coordinates: number[][][];
+	coordinates: number[][];
 };
 
 export type GeoJsonPoint = {
