@@ -62,6 +62,7 @@ router.post("/upload", (req, res) => {
 			return res.status(400).json({ error: "No file uploaded" });
 		}
 
+		//! Parse the GML file using GMLReaderService
 		const fileData = GMLReaderService.readGMLFile(req.file);
 
 		return res.status(200).json({
