@@ -41,18 +41,26 @@ const startingPosition: [number, number] = [
 	51.52975152891632, -0.1160599992007142,
 ];
 
+interface MapMoveProps {
+	onMoveMoved: (
+		center: [number, number],
+		zoom: number,
+		bounds: string,
+	) => void;
+}
+
 // small component to log map move events
-const MapMoveLogger = () => {
+const MapMoveLogger = ({ onMoveMoved }: MapMoveProps) => {
 	useMapEvents({
 		moveend: (event) => {
 			const map = event.target;
 			const center = map.getCenter();
 
-			console.log("map moved", {
-				center: [center.lat, center.lng],
-				zoom: map.getZoom(),
-				bounds: map.getBounds().toBBoxString(),
-			});
+			const centerCoords: [number, number] = [center.lat, center.lng];
+			const zoom = map.getZoom();
+			const bounds = map.getBounds().toBBoxString();
+
+			onMoveMoved(centerCoords, zoom, bounds);
 		},
 	});
 
@@ -85,6 +93,15 @@ export const LeafletMapView = ({ properties }: Props) => {
 	};
 	const [selectedProperty, setSelectedProperty] =
 		useState<PropertyViewType | null>(null);
+
+	const handleMapMoved = (
+		center: [number, number],
+		zoom: number,
+		bounds: string,
+	) => {
+		console.log("Map moved to:", { center, zoom, bounds });
+		// show loading animation
+	};
 
 	useEffect(() => {
 		if (properties.length === 0) {
@@ -208,7 +225,11 @@ export const LeafletMapView = ({ properties }: Props) => {
 				style={{ height: "100%", width: "100%", zIndex: 0 }}
 			>
 				{/* //! Map move event handler */}
-				<MapMoveLogger />
+				<MapMoveLogger
+					onMoveMoved={(center, zoom, bounds) =>
+						handleMapMoved(center, zoom, bounds)
+					}
+				/>
 
 				<ZoomControl position="topright" />
 
