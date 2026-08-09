@@ -97,7 +97,7 @@ export const LeafletMapView = () => {
 			className={`w-full h-screen relative bg-gray-200 flex items-center justify-center`}
 			style={{ height: "100vh", width: "100vw" }}
 		>
-			<div className="absolute top-4 left-4 z-50 flex flex-col gap-2 h-[90%]">
+			<div className="absolute top-4 left-23 z-50 flex flex-col gap-2">
 				{showSearch && (
 					<div className="flex flex-row gap-2 rounded-lg shadow-2xl">
 						{/* Search box */}
@@ -150,7 +150,9 @@ export const LeafletMapView = () => {
 						</div>
 					</div>
 				)}
+			</div>
 
+			<div className="absolute top-4 left-4 z-50">
 				<div className="px-4 py-2 rounded-lg bg-slate-800 shadow-2xl text-olive-200 h-full min-w-15 max-w-[20%] flex flex-col items-center justify-between">
 					<div className="flex flex-col items-center gap-4">
 						<IoMdHome
