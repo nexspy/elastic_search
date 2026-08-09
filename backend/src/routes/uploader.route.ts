@@ -30,8 +30,8 @@ const storage = multer.diskStorage({
 //* this stores the file in memory as a buffer
 const upload = multer({
 	storage: multer.memoryStorage(),
-	limits: { fileSize: 35 * 1024 * 1024 },
-}); // Limit file size to 35MB
+	limits: { fileSize: 100 * 1024 * 1024 },
+}); // Limit file size to 100MB
 
 // POST route to handle file upload
 router.post("/upload", (req, res) => {
@@ -40,7 +40,7 @@ router.post("/upload", (req, res) => {
 			if (err.code === "LIMIT_FILE_SIZE") {
 				return res.status(413).json({
 					error: "File too large",
-					message: "Maximum allowed file size is 35MB",
+					message: "Maximum allowed file size is 100MB",
 				});
 			}
 

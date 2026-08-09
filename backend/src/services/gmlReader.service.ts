@@ -27,8 +27,8 @@ export class GMLReaderService {
 
 		console.log("🚀 Extracted features:", features.length);
 		if (features.length > 0) {
-			console.log("🚀 First item:", features[0]);
-			console.log("🚀 Coordinates:", features[0].geometry.coordinates);
+			console.log("🚀 First item:", features[2]);
+			console.log("🚀 Coordinates:", features[2].geometry.coordinates);
 		}
 
 		const fileData = {
