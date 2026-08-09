@@ -69,9 +69,10 @@ const MapMoveLogger = ({ onMoveMoved }: MapMoveProps) => {
 
 interface Props {
 	properties: PropertyInAreaItem[];
+	refreshProperties?: () => void;
 }
 
-export const LeafletMapView = ({ properties }: Props) => {
+export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 	const router = useRouter();
 	const markerPositions: MarkerType[] = [];
 
@@ -100,7 +101,11 @@ export const LeafletMapView = ({ properties }: Props) => {
 		bounds: string,
 	) => {
 		console.log("Map moved to:", { center, zoom, bounds });
-		// show loading animation
+
+		// show loading animation and fetch properties in the new bounds
+		if (refreshProperties) {
+			refreshProperties();
+		}
 	};
 
 	useEffect(() => {
