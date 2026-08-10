@@ -5,6 +5,7 @@ import type {
 	PropertyInAreaItem,
 } from "../types/property/Property.type.ts";
 import { convertPropertyCoordinates } from "../util/conversion.util.ts";
+import { ElasticService } from "./elastic.service.ts";
 
 export class PropertyService {
 	/**
@@ -228,6 +229,20 @@ export class PropertyService {
 				coordinates: [0.9, 0.9],
 			},
 		};
+
+		// find properties from elasticsearch
+		const elasticService = new ElasticService();
+		await elasticService
+			.getProperties()
+			.then((properties) => {
+				console.log("🚀 Properties from Elasticsearch:", properties);
+			})
+			.catch((error) => {
+				console.error(
+					"Error fetching properties from Elasticsearch:",
+					error,
+				);
+			});
 
 		return {
 			bounds: {

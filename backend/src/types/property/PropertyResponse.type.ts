@@ -7,7 +7,7 @@ export type PropertyResponseItem = {
 	};
 	geometry: {
 		type: string;
-		coordinates: number[][];
+		coordinates: number[][][];
 	};
 };
 

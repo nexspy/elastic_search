@@ -4,7 +4,9 @@ import { extractFeaturesFromXML } from "../util/xmlReader.util.ts";
 import type {
 	GMLResponse,
 	PropertyResponse,
+	PropertyResponseItem,
 } from "../types/property/PropertyResponse.type.ts";
+import { ElasticService } from "./elastic.service.ts";
 
 export class GMLReaderService {
 	/**
@@ -25,10 +27,20 @@ export class GMLReaderService {
 		const parsed = parser.parse(xmlText);
 		const features: PropertyResponse = extractFeaturesFromXML(parsed);
 
-		console.log("🚀 Extracted features:", features.length);
 		if (features.length > 0) {
-			console.log("🚀 First item:", features[2]);
-			console.log("🚀 Coordinates:", features[2].geometry.coordinates);
+			console.log("🚀 First item:", features[0]);
+
+			// index few features in elasticsearch
+			const elasticService = new ElasticService();
+			features
+				.slice(0, 5)
+				.forEach(async (feature: PropertyResponseItem) => {
+					console.log(
+						"🚀 Indexing feature:",
+						feature.properties.label,
+					);
+					await elasticService.indexProperty(feature);
+				});
 		}
 
 		const fileData = {
