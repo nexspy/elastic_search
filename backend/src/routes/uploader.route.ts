@@ -62,6 +62,7 @@ router.post("/upload", (req, res) => {
 			return res.status(400).json({ error: "No file uploaded" });
 		}
 
+		//TODO: Move this logic to background worker, so, save uploaded file to disk and process it in background, so that user can get response immediately
 		//! Parse the GML file using GMLReaderService
 		const fileData = GMLReaderService.readGMLFile(req.file);
 
