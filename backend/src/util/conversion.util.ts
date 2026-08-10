@@ -49,3 +49,17 @@ export const convertPropertyCoordinates = (
 		},
 	};
 };
+
+/**
+ * Convert British points to latitude and longitude value
+ * @param valueA
+ * @param valueB
+ * @returns
+ */
+export const convertPointToLatLon = (
+	valueA: number,
+	valueB: number,
+): [number, number] => {
+	const [lat, lon] = convertBritishToLatLon(valueA, valueB);
+	return [lat, lon];
+};
