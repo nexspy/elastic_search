@@ -10,11 +10,16 @@ export const LeafletMapWrapper = () => {
 
 	const [properties, setProperties] = useState<PropertyInAreaItem[]>([]);
 
-	const fetchProperties = async () => {
+	const fetchProperties = async (
+		minLon = 85.3,
+		minLat = 27.65,
+		maxLon = 85.4,
+		maxLat = 27.75,
+	) => {
 		try {
 			console.log("🚀 Lets fetch properties...");
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/properties/in-area?minLon=85.30&minLat=27.65&maxLon=85.40&maxLat=27.75`,
+				`${process.env.NEXT_PUBLIC_API_URL}/properties/in-area?minLon=${minLon}&minLat=${minLat}&maxLon=${maxLon}&maxLat=${maxLat}`,
 			);
 			const data = await res.json();
 			setProperties(data.properties || []);
@@ -31,7 +36,9 @@ export const LeafletMapWrapper = () => {
 		<div>
 			<LeafletMapView
 				properties={properties}
-				refreshProperties={() => fetchProperties()}
+				refreshProperties={(minLon, minLat, maxLon, maxLat) =>
+					fetchProperties(minLon, minLat, maxLon, maxLat)
+				}
 			/>
 		</div>
 	);

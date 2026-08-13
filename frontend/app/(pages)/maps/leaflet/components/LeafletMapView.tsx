@@ -70,7 +70,12 @@ const MapMoveLogger = ({ onMoveMoved }: MapMoveProps) => {
 
 interface Props {
 	properties: PropertyInAreaItem[];
-	refreshProperties?: () => void;
+	refreshProperties?: (
+		minLon: number,
+		minLat: number,
+		maxLon: number,
+		maxLat: number,
+	) => void;
 }
 
 export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
@@ -106,13 +111,18 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 		zoom: number,
 		bounds: string,
 	) => {
+		const boundsArray = bounds.split(",").map(Number);
+
 		// show loading animation and fetch properties in the new bounds
 		if (refreshProperties) {
-			refreshProperties();
+			const minLon = boundsArray[0];
+			const minLat = boundsArray[1];
+			const maxLon = boundsArray[2];
+			const maxLat = boundsArray[3];
+			refreshProperties(minLon, minLat, maxLon, maxLat);
 		}
 
 		// update bounds state
-		const boundsArray = bounds.split(",").map(Number);
 		const newBounds: [[number, number], [number, number]] = [
 			[boundsArray[1], boundsArray[0]], // Southwest corner
 			[boundsArray[3], boundsArray[2]], // Northeast corner
