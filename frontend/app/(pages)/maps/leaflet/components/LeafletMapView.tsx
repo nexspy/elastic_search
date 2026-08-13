@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	MapContainer,
 	TileLayer,
@@ -120,19 +120,28 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 		setMapBounds(newBounds);
 	};
 
-	const handleMapLoaded = (
-		center: [number, number],
-		zoom: number,
-		bounds: string,
-	) => {
-		// update bounds state
-		const boundsArray = bounds.split(",").map(Number);
-		const newBounds: [[number, number], [number, number]] = [
-			[boundsArray[1], boundsArray[0]], // Southwest corner
-			[boundsArray[3], boundsArray[2]], // Northeast corner
-		];
-		setMapBounds(newBounds);
-	};
+	const handleMapLoaded = useCallback(
+		(center: [number, number], zoom: number, bounds: string) => {
+			const boundsArray = bounds.split(",").map(Number);
+			const nextBounds: [[number, number], [number, number]] = [
+				[boundsArray[1], boundsArray[0]],
+				[boundsArray[3], boundsArray[2]],
+			];
+
+			setMapBounds((prev) => {
+				const same =
+					prev &&
+					prev[0][0] === nextBounds[0][0] &&
+					prev[0][1] === nextBounds[0][1] &&
+					prev[1][0] === nextBounds[1][0] &&
+					prev[1][1] === nextBounds[1][1];
+
+				return same ? prev : nextBounds;
+			});
+			console.log("map loaded first time and bounds were set");
+		},
+		[],
+	);
 
 	useEffect(() => {
 		if (properties.length === 0) {
@@ -270,11 +279,7 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 						handleMapMoved(center, zoom, bounds)
 					}
 				/>
-				<MapReadyLogger
-					onMapLoaded={(center, zoom, bounds) =>
-						handleMapLoaded(center, zoom, bounds)
-					}
-				/>
+				<MapReadyLogger onMapLoaded={handleMapLoaded} />
 
 				<ZoomControl position="topright" />
 
