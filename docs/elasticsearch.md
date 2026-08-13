@@ -180,6 +180,19 @@ Send this as query body in search endpoint
 }
 ```
 
+## Deleting documents in index
+
+This request in dev tools in Kibana can delete all documents in index products
+
+```
+POST /products/_delete_by_query
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
 ## Running query in Kibana
 
 Open side menu on left, go to Management > Dev Tools
