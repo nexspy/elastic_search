@@ -32,6 +32,7 @@ import {
 	PropertyViewType,
 } from "@/app/types/Property.type";
 import { convertPropertyInAreaItemToPropertyViewType } from "@/app/util/property.util";
+import MapReadyLogger from "./MapReadyLogger";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
@@ -84,6 +85,11 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 
 	const [propertiesList, setPropertiesList] = useState<PropertyMapItem[]>([]);
 
+	// current mapbounds
+	const [mapBounds, setMapBounds] = useState<
+		[[number, number], [number, number]] | null
+	>(null);
+
 	// this is the property we see in the modal view
 	const sampleProperty: PropertyViewType = {
 		id: "1",
@@ -100,12 +106,24 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 		zoom: number,
 		bounds: string,
 	) => {
-		console.log("Map moved to:", { center, zoom, bounds });
-
 		// show loading animation and fetch properties in the new bounds
 		if (refreshProperties) {
 			refreshProperties();
 		}
+	};
+
+	const handleMapLoaded = (
+		center: [number, number],
+		zoom: number,
+		bounds: string,
+	) => {
+		// update bounds state
+		const boundsArray = bounds.split(",").map(Number);
+		const newBounds: [[number, number], [number, number]] = [
+			[boundsArray[1], boundsArray[0]], // Southwest corner
+			[boundsArray[3], boundsArray[2]], // Northeast corner
+		];
+		setMapBounds(newBounds);
 	};
 
 	useEffect(() => {
@@ -121,6 +139,15 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 
 		setPropertiesList(convertedPropertiesArray);
 	}, [properties]);
+
+	useEffect(() => {
+		// set current map bounds to the initial bounds of the map
+		const initialBounds: [[number, number], [number, number]] = [
+			[startingPosition[0], startingPosition[1]], // Southwest corner
+			[startingPosition[0] + 0.01, startingPosition[1] + 0.01], // Northeast corner
+		];
+		setMapBounds(initialBounds);
+	}, []);
 
 	return (
 		<div
@@ -233,6 +260,11 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 				<MapMoveLogger
 					onMoveMoved={(center, zoom, bounds) =>
 						handleMapMoved(center, zoom, bounds)
+					}
+				/>
+				<MapReadyLogger
+					onMapLoaded={(center, zoom, bounds) =>
+						handleMapLoaded(center, zoom, bounds)
 					}
 				/>
 
