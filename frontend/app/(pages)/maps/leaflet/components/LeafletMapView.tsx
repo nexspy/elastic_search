@@ -110,6 +110,14 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 		if (refreshProperties) {
 			refreshProperties();
 		}
+
+		// update bounds state
+		const boundsArray = bounds.split(",").map(Number);
+		const newBounds: [[number, number], [number, number]] = [
+			[boundsArray[1], boundsArray[0]], // Southwest corner
+			[boundsArray[3], boundsArray[2]], // Northeast corner
+		];
+		setMapBounds(newBounds);
 	};
 
 	const handleMapLoaded = (
