@@ -1,15 +1,9 @@
 import { Client } from "@elastic/elasticsearch";
-import type { PropertyResponseItem } from "../types/property/PropertyResponse.type.ts";
+import type {
+	PropertyDocument,
+	PropertyResponseItem,
+} from "../types/property/PropertyResponse.type.ts";
 import { convertPointToLatLon } from "../util/conversion.util.ts";
-
-type PropertyDocument = {
-	id?: string;
-	title: string;
-	type: string;
-	price: number;
-	created_at: string | Date;
-	location: { lat: number; lon: number }; // safer than [lon, lat] array
-};
 
 export class ElasticService {
 	private client: Client;
@@ -42,7 +36,8 @@ export class ElasticService {
 						type: { type: "keyword" },
 						price: { type: "long" },
 						created_at: { type: "date" },
-						location: { type: "geo_point" },
+						boundary: { type: "geo_shape" }, // store the full boundary as a geo_shape for Elasticsearch
+						location: { type: "geo_point" }, // store the first coordinate point as a geo_point for Elasticsearch
 					},
 				},
 			});
@@ -52,9 +47,11 @@ export class ElasticService {
 	// index a property document in Elasticsearch
 	public async indexProperty(property: PropertyResponseItem): Promise<void> {
 		// coordinates are in British National Grid, need to convert to lat/lon for Elasticsearch
-		const convertedCoordinates = convertPointToLatLon(
-			property.geometry.coordinates[0][0][0],
-			property.geometry.coordinates[0][0][1],
+		const polygonCoordinates = property.geometry.coordinates[0].map(
+			([x, y]) => {
+				const [lat, lon] = convertPointToLatLon(x, y);
+				return [lon, lat] as [number, number];
+			},
 		);
 
 		// prepare the document to be indexed
@@ -64,10 +61,17 @@ export class ElasticService {
 			type: "property",
 			price: property.properties.nationalCadastralReference,
 			created_at: property.properties.validFrom,
+			boundary: {
+				type: "Polygon",
+				coordinates: [polygonCoordinates],
+			},
 			location: {
-				// store the first coordinate point as a geo_point for Elasticsearch
-				lat: convertedCoordinates[0],
-				lon: convertedCoordinates[1],
+				lat:
+					polygonCoordinates.reduce((sum, [, lat]) => sum + lat, 0) /
+					polygonCoordinates.length,
+				lon:
+					polygonCoordinates.reduce((sum, [lon]) => sum + lon, 0) /
+					polygonCoordinates.length,
 			},
 		};
 
