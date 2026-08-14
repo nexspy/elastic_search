@@ -195,12 +195,17 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 							<BsSlashLg
 								size={toolSize}
 								color={toolColour}
-								className="hover:opacity-75 cursor-pointer"
+								// className="hover:opacity-75 cursor-pointer"
+								className="cursor-not-allowed"
 								title="Draw Line"
 							/>
 							<MdPentagon
 								size={toolSize}
-								color={toolColour}
+								color={
+									activeTool === "polygon"
+										? "#fe9a00"
+										: toolColour
+								}
 								className="hover:opacity-75 cursor-pointer"
 								title="Draw Pentagon"
 								onClick={() =>
@@ -212,13 +217,15 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 							<FaCircle
 								size={toolSize}
 								color={toolColour}
-								className="hover:opacity-75 cursor-pointer"
+								// className="hover:opacity-75 cursor-pointer"
+								className="cursor-not-allowed"
 								title="Draw Circle"
 							/>
 							<FaTrash
 								size={toolSize}
 								color={toolColour}
-								className="hover:opacity-75 cursor-pointer"
+								// className="hover:opacity-75 cursor-pointer"
+								className="cursor-not-allowed"
 								title="Delete Shape"
 							/>
 						</div>
