@@ -1,4 +1,4 @@
-export type PropertyResponseItem = {
+export type ES_PropertyResponseItem = {
 	properties: {
 		inspireId: number;
 		label: string;
@@ -11,9 +11,9 @@ export type PropertyResponseItem = {
 	};
 };
 
-export type PropertyResponse = PropertyResponseItem[];
+export type ES_PropertyResponse = ES_PropertyResponseItem[];
 
-export type GMLResponse = {
+export type ES_GMLResponse = {
 	filename: string;
 	extension: string;
 	mimetype: string;
@@ -21,7 +21,7 @@ export type GMLResponse = {
 };
 
 // Elastic document representation of a property, used for indexing in Elasticsearch
-export type PropertyDocument = {
+export type ES_PropertyItem = {
 	id?: string;
 	title: string;
 	type: string;

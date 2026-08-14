@@ -2,9 +2,9 @@ import { XMLParser } from "fast-xml-parser";
 import path from "path";
 import { extractFeaturesFromXML } from "../util/xmlReader.util.ts";
 import type {
-	GMLResponse,
-	PropertyResponse,
-	PropertyResponseItem,
+	ES_GMLResponse,
+	ES_PropertyResponse,
+	ES_PropertyResponseItem,
 } from "../types/property/PropertyResponse.type.ts";
 import { ElasticService } from "./elastic.service.ts";
 
@@ -14,7 +14,7 @@ export class GMLReaderService {
 	 * @param file - The GML file to read.
 	 * @returns An object containing file metadata.
 	 */
-	public static readGMLFile(file: Express.Multer.File): GMLResponse {
+	public static readGMLFile(file: Express.Multer.File): ES_GMLResponse {
 		const xmlText = file.buffer.toString("utf-8");
 
 		const parser = new XMLParser({
@@ -25,7 +25,7 @@ export class GMLReaderService {
 		});
 
 		const parsed = parser.parse(xmlText);
-		const features: PropertyResponse = extractFeaturesFromXML(parsed);
+		const features: ES_PropertyResponse = extractFeaturesFromXML(parsed);
 
 		if (features.length > 0) {
 			console.log("🚀 First item:", features[0]);
@@ -34,7 +34,7 @@ export class GMLReaderService {
 			const elasticService = new ElasticService();
 			features
 				.slice(0, 4)
-				.forEach(async (feature: PropertyResponseItem) => {
+				.forEach(async (feature: ES_PropertyResponseItem) => {
 					console.log(
 						"🚀 Indexing feature:",
 						feature.geometry.coordinates,

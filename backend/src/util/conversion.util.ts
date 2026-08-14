@@ -1,6 +1,6 @@
 import proj4 from "proj4";
 import type { PropertyInAreaItem } from "../types/property/Property.type.ts";
-import type { PropertyDocument } from "../types/property/PropertyResponse.type.ts";
+import type { ES_PropertyItem } from "../types/property/PropertyResponse.type.ts";
 
 /**
  * Convert British National Grid coordinates (easting, northing) to latitude and longitude.
@@ -35,8 +35,8 @@ export const convertBritishToLatLon = (
  * @returns
  */
 export const convertPropertyCoordinates = (
-	property: PropertyInAreaItem | PropertyDocument,
-): PropertyInAreaItem | PropertyDocument => {
+	property: PropertyInAreaItem | ES_PropertyItem,
+): PropertyInAreaItem | ES_PropertyItem => {
 	let coordinates: number[][] = [];
 
 	if ("plot_geojson" in property && property.plot_geojson) {
@@ -52,7 +52,7 @@ export const convertPropertyCoordinates = (
 			type: "Polygon",
 			coordinates,
 		},
-	} as PropertyInAreaItem | PropertyDocument;
+	} as PropertyInAreaItem | ES_PropertyItem;
 };
 
 /**

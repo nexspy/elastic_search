@@ -1,7 +1,7 @@
 import { Client } from "@elastic/elasticsearch";
 import type {
-	PropertyDocument,
-	PropertyResponseItem,
+	ES_PropertyItem,
+	ES_PropertyResponseItem,
 } from "../types/property/PropertyResponse.type.ts";
 import { convertPointToLatLon } from "../util/conversion.util.ts";
 
@@ -45,7 +45,9 @@ export class ElasticService {
 	}
 
 	// index a property document in Elasticsearch
-	public async indexProperty(property: PropertyResponseItem): Promise<void> {
+	public async indexProperty(
+		property: ES_PropertyResponseItem,
+	): Promise<void> {
 		// coordinates are in British National Grid, need to convert to lat/lon for Elasticsearch
 		const polygonCoordinates = property.geometry.coordinates[0].map(
 			([x, y]) => {
@@ -55,7 +57,7 @@ export class ElasticService {
 		);
 
 		// prepare the document to be indexed
-		const prop: PropertyDocument = {
+		const prop: ES_PropertyItem = {
 			id: property.properties.inspireId.toString(),
 			title: property.properties.label,
 			type: "property",
