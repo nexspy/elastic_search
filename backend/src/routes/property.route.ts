@@ -14,7 +14,7 @@ import {
  * @returns
  */
 export async function getPropertiesInArea(req: any, res: any, next: any) {
-	console.log("req", req.query);
+	// console.log("req", req.query);
 	const minLon = parseCoordinate(req.query.minLon as string | undefined);
 	const minLat = parseCoordinate(req.query.minLat as string | undefined);
 	const maxLon = parseCoordinate(req.query.maxLon as string | undefined);

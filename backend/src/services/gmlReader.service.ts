@@ -33,11 +33,11 @@ export class GMLReaderService {
 			// index few features in elasticsearch
 			const elasticService = new ElasticService();
 			features
-				.slice(0, 5)
+				.slice(0, 4)
 				.forEach(async (feature: PropertyResponseItem) => {
 					console.log(
 						"🚀 Indexing feature:",
-						feature.properties.label,
+						feature.geometry.coordinates,
 					);
 					await elasticService.indexProperty(feature);
 				});

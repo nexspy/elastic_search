@@ -78,11 +78,11 @@ export class ElasticService {
 		// make sure the index exists before indexing the document
 		await this.ensureIndex();
 
-		await this.client.index({
-			index: this.indexName,
-			id: prop.id,
-			document: prop,
-		});
+		// await this.client.index({
+		// 	index: this.indexName,
+		// 	id: prop.id,
+		// 	document: prop,
+		// });
 	}
 
 	// search for properties in Elasticsearch based on a query

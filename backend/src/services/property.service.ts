@@ -24,10 +24,16 @@ export class PropertyService {
 		await elasticService
 			.getProperties()
 			.then((properties) => {
-				console.log("🚀 Properties from Elasticsearch:", properties);
+				// console.log("🚀 Properties from Elasticsearch:", properties);
 				// convert properties to PropertyInAreaItem type and log them
-				convertedProperties = properties.map((property: any) =>
-					convertPropertyCoordinates(property),
+				convertedProperties = properties.map(
+					(property: PropertyInAreaItem) => {
+						console.log(
+							"🚀 Property from Elasticsearch:",
+							property,
+						);
+						return convertPropertyCoordinates(property);
+					},
 				);
 				console.log("🚀 Converted Properties:", convertedProperties);
 			})
