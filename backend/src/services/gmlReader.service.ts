@@ -8,6 +8,8 @@ import type {
 } from "../types/property/PropertyResponse.type.ts";
 import { ElasticService } from "./elastic.service.ts";
 
+const MAX_FEATURES_TO_INDEX = 150;
+
 export class GMLReaderService {
 	/**
 	 * Reads a GML file and extracts features from it.
@@ -33,12 +35,8 @@ export class GMLReaderService {
 			// index few features in elasticsearch
 			const elasticService = new ElasticService();
 			features
-				.slice(0, 4)
+				// .slice(0, MAX_FEATURES_TO_INDEX)
 				.forEach(async (feature: ES_PropertyResponseItem) => {
-					console.log(
-						"🚀 Indexing feature:",
-						feature.geometry.coordinates,
-					);
 					await elasticService.indexProperty(feature);
 				});
 		}

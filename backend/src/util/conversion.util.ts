@@ -47,7 +47,9 @@ export const convertPropertyCoordinates = (
 		// property.boundary.coordinates[0][0][lat, lon]
 		coordinates = property.boundary.coordinates[0].map(
 			(coord: ES_PropertyItem["boundary"]["coordinates"][0][0]) => {
-				const [lat, lon] = convertBritishToLatLon(coord[0], coord[1]);
+				// const [lat, lon] = convertBritishToLatLon(coord[0], coord[1]);
+				const lat = coord[1];
+				const lon = coord[0];
 				return [lat, lon];
 			},
 		);
