@@ -27,11 +27,15 @@ import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
 import { PropertyModalView } from "./modal/PropertyModalView";
 import {
+	ES_PropertyItem,
 	PropertyInAreaItem,
 	PropertyMapItem,
 	PropertyViewType,
 } from "@/app/types/Property.type";
-import { convertPropertyInAreaItemToPropertyViewType } from "@/app/util/property.util";
+import {
+	convertESPropertyInAreaItemToPropertyViewType,
+	convertPropertyInAreaItemToPropertyViewType,
+} from "@/app/util/property.util";
 import MapReadyLogger from "./MapReadyLogger";
 
 const toolSize = 24;
@@ -160,8 +164,12 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 		}
 
 		// convert all properties in the array
-		const convertedPropertiesArray = properties.map((property) =>
-			convertPropertyInAreaItemToPropertyViewType(property),
+		const convertedPropertiesArray = properties.map(
+			(property: PropertyInAreaItem | ES_PropertyItem) =>
+				// convertPropertyInAreaItemToPropertyViewType(property),
+				convertESPropertyInAreaItemToPropertyViewType(
+					property as ES_PropertyItem,
+				),
 		);
 
 		setPropertiesList(convertedPropertiesArray);
