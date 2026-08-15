@@ -1,4 +1,3 @@
-import { DatabasePoolService } from "../services/database.service.ts";
 import { PropertyService } from "../services/property.service.ts";
 import type { GetPropertiesInAreaResponse } from "../types/property/Property.type.ts";
 import {
@@ -42,6 +41,19 @@ export async function getPropertiesInArea(req: any, res: any, next: any) {
 		console.error("Error fetching properties in area:", error);
 		res.status(500).json({ error: "Failed to fetch properties." });
 	}
+
+	res.status(200).json(result);
+}
+
+/**
+ * POST - add property using shape
+ *  - FE will send the shape data in the request body
+ */
+export async function addPropertyUsingShape(req: any, res: any, next: any) {
+	let result: any = {
+		property: null,
+		message: "Property added successfully",
+	};
 
 	res.status(200).json(result);
 }

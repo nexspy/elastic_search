@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { getPropertiesInArea } from "./property.route.ts";
+import {
+	addPropertyUsingShape,
+	getPropertiesInArea,
+} from "./property.route.ts";
 
 const router = Router();
 
@@ -10,6 +13,8 @@ router.get("/", (_req, res) => {
 });
 
 router.get("/properties/in-area", getPropertiesInArea);
+
+router.post("/properties/add-using-shape", addPropertyUsingShape);
 
 router.use("/properties", uploaderRouter);
 

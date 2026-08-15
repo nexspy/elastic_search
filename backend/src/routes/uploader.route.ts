@@ -1,8 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
-import { XMLParser } from "fast-xml-parser";
-import { extractFeaturesFromXML } from "../util/xmlReader.util.ts";
 import { GMLReaderService } from "../services/gmlReader.service.ts";
 
 const router = Router();
