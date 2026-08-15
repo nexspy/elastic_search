@@ -4,6 +4,7 @@ import type {
 	ES_PropertyResponseItem,
 } from "../types/property/PropertyResponse.type.ts";
 import { convertPointToLatLon } from "../util/conversion.util.ts";
+import type { AreaBounds } from "../types/property/Property.type.ts";
 
 export class ElasticService {
 	private client: Client;
@@ -89,12 +90,43 @@ export class ElasticService {
 	}
 
 	// search for properties in Elasticsearch based on a query
-	public async getProperties(): Promise<any> {
+	public async getProperties(area: AreaBounds): Promise<any> {
+		// build the query for Elasticsearch based on the area bounds
+		const query =
+			area &&
+			// check if all bounds are finite numbers
+			// - protects against invalid or missing values
+			Number.isFinite(area.minLat) &&
+			Number.isFinite(area.maxLat) &&
+			Number.isFinite(area.minLon) &&
+			Number.isFinite(area.maxLon)
+				? {
+						bool: {
+							filter: [
+								{
+									geo_bounding_box: {
+										location: {
+											top_left: {
+												lat: area.maxLat,
+												lon: area.minLon,
+											},
+											bottom_right: {
+												lat: area.minLat,
+												lon: area.maxLon,
+											},
+										},
+									},
+								},
+							],
+						},
+					}
+				: {
+						match_all: {}, // else get all properties if no valid area bounds are provided
+					};
+
 		const response = await this.client.search({
 			index: this.indexName,
-			query: {
-				match_all: {},
-			},
+			query: query,
 			size: this.searchSize,
 			track_total_hits: true,
 		});

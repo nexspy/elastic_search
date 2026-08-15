@@ -23,7 +23,7 @@ export class PropertyService {
 		const elasticService = new ElasticService();
 		elasticService.setSearchSize(1000); // set search size to 1000 for this query
 		await elasticService
-			.getProperties()
+			.getProperties(area)
 			.then((properties) => {
 				// convert properties to PropertyInAreaItem type and log them
 				convertedProperties = properties.map(
