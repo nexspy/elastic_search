@@ -1,3 +1,5 @@
+import type { ES_PropertyItem } from "./PropertyResponse.type.ts";
+
 export type PropertyType = "residential" | "commercial" | "land";
 
 export type AreaBounds = {
@@ -59,7 +61,7 @@ export type PropertyInAreaItem = {
 export type GetPropertiesInAreaResponse = {
 	bounds: AreaBounds;
 	count: number | null;
-	properties: PropertyInAreaItem[];
+	properties: ES_PropertyItem[];
 };
 
 /**

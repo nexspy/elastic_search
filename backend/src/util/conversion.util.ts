@@ -35,24 +35,31 @@ export const convertBritishToLatLon = (
  * @returns
  */
 export const convertPropertyCoordinates = (
-	property: PropertyInAreaItem | ES_PropertyItem,
-): PropertyInAreaItem | ES_PropertyItem => {
+	property: ES_PropertyItem,
+): ES_PropertyItem => {
 	let coordinates: number[][] = [];
 
-	if ("plot_geojson" in property && property.plot_geojson) {
-		coordinates = property.plot_geojson.coordinates.map((coord) => {
-			const [lat, lon] = convertBritishToLatLon(coord[0], coord[1]);
-			return [lat, lon];
-		});
+	if (
+		"boundary" in property &&
+		property.boundary &&
+		property.boundary.coordinates
+	) {
+		// property.boundary.coordinates[0][0][lat, lon]
+		coordinates = property.boundary.coordinates[0].map(
+			(coord: ES_PropertyItem["boundary"]["coordinates"][0][0]) => {
+				const [lat, lon] = convertBritishToLatLon(coord[0], coord[1]);
+				return [lat, lon];
+			},
+		);
 	}
 
 	return {
 		...property,
-		plot_geojson: {
-			type: "Polygon",
-			coordinates,
+		boundary: {
+			...property.boundary,
+			coordinates: [coordinates],
 		},
-	} as PropertyInAreaItem | ES_PropertyItem;
+	} as ES_PropertyItem;
 };
 
 /**

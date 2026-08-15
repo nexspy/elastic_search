@@ -2,10 +2,10 @@ import type { Pool } from "pg";
 import type {
 	AreaBounds,
 	GetPropertiesInAreaResponse,
-	PropertyInAreaItem,
 } from "../types/property/Property.type.ts";
 import { convertPropertyCoordinates } from "../util/conversion.util.ts";
 import { ElasticService } from "./elastic.service.ts";
+import type { ES_PropertyItem } from "../types/property/PropertyResponse.type.ts";
 
 export class PropertyService {
 	/**
@@ -17,7 +17,7 @@ export class PropertyService {
 	public async getPropertiesInArea(
 		area: AreaBounds,
 	): Promise<GetPropertiesInAreaResponse> {
-		let convertedProperties: PropertyInAreaItem[] = [];
+		let convertedProperties: ES_PropertyItem[] = [];
 
 		// find properties from elasticsearch
 		const elasticService = new ElasticService();
@@ -27,11 +27,8 @@ export class PropertyService {
 				// console.log("🚀 Properties from Elasticsearch:", properties);
 				// convert properties to PropertyInAreaItem type and log them
 				convertedProperties = properties.map(
-					(property: PropertyInAreaItem) => {
-						console.log(
-							"🚀 Property from Elasticsearch:",
-							property,
-						);
+					(property: ES_PropertyItem, index: number) => {
+						// each polygon coordinates are in property.boundary.coordinates[0][0][lat, lon]
 						return convertPropertyCoordinates(property);
 					},
 				);
