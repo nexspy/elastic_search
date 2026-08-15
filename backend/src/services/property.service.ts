@@ -21,10 +21,10 @@ export class PropertyService {
 
 		// find properties from elasticsearch
 		const elasticService = new ElasticService();
+		elasticService.setSearchSize(1000); // set search size to 1000 for this query
 		await elasticService
 			.getProperties()
 			.then((properties) => {
-				// console.log("🚀 Properties from Elasticsearch:", properties);
 				// convert properties to PropertyInAreaItem type and log them
 				convertedProperties = properties.map(
 					(property: ES_PropertyItem, index: number) => {

@@ -8,6 +8,7 @@ import { convertPointToLatLon } from "../util/conversion.util.ts";
 export class ElasticService {
 	private client: Client;
 	private indexName: string;
+	private searchSize: number = 10; // default search size
 
 	constructor() {
 		this.client = new Client({
@@ -94,8 +95,20 @@ export class ElasticService {
 			query: {
 				match_all: {},
 			},
+			size: this.searchSize,
+			track_total_hits: true,
 		});
 
 		return response.hits.hits.map((hit) => hit._source);
+	}
+
+	// change search size for getProperties method
+	public setSearchSize(size: number): void {
+		this.searchSize = size;
+	}
+
+	// get search size if needed
+	public getSearchSize(): number {
+		return this.searchSize;
 	}
 }
