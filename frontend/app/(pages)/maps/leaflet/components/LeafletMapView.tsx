@@ -38,6 +38,7 @@ import {
 	convertPropertyInAreaItemToPropertyViewType,
 } from "@/app/util/property.util";
 import MapReadyLogger from "./MapReadyLogger";
+import { AddPropertyModal } from "./modal/AddPropertyModal";
 
 const toolSize = 24;
 const toolColour = "#d8d8d0";
@@ -96,6 +97,8 @@ export const LeafletMapView = ({
 	const [showSearch, setShowSearch] = useState<boolean>(true);
 	const [showDrawTools, setShowDrawTools] = useState<boolean>(false);
 	const [showModalView, setShowModalView] = useState<boolean>(true);
+	const [showAddPropertyModal, setShowAddPropertyModal] =
+		useState<boolean>(false);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
 
 	const [propertiesList, setPropertiesList] = useState<PropertyMapItem[]>([]);
@@ -382,6 +385,8 @@ export const LeafletMapView = ({
 					<DrawController
 						activeTool={activeTool}
 						onToolEnd={async (latLngs: L.LatLng[]) => {
+							setShowAddPropertyModal(true);
+
 							// latlngs is an array of { lat, lng } objects
 							console.log("New polygon points: ", latLngs);
 							setActiveTool(null);
@@ -419,6 +424,15 @@ export const LeafletMapView = ({
 				<PropertyModalView
 					propertyView={selectedProperty}
 					onClose={() => setShowModalView(false)}
+				/>
+			)}
+
+			{showAddPropertyModal && (
+				<AddPropertyModal
+					onSave={(propertyName: string) => {
+						// save
+					}}
+					onClose={() => setShowAddPropertyModal(false)}
 				/>
 			)}
 		</div>
