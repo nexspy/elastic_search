@@ -377,8 +377,22 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 						activeTool={activeTool}
 						onToolEnd={(latLngs: L.LatLng[]) => {
 							// latlngs is an array of { lat, lng } objects
-							console.log("points: ", latLngs);
+							console.log("New polygon points: ", latLngs);
 							setActiveTool(null);
+
+							// refetch properties
+							if (refreshProperties && mapBounds) {
+								const minLon = mapBounds[0][1];
+								const minLat = mapBounds[0][0];
+								const maxLon = mapBounds[1][1];
+								const maxLat = mapBounds[1][0];
+								refreshProperties(
+									minLon,
+									minLat,
+									maxLon,
+									maxLat,
+								);
+							}
 						}}
 					/>
 				)}
