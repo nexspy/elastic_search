@@ -105,3 +105,13 @@ export type ES_PropertyItem = {
 	boundary: { type: "Polygon"; coordinates: number[][][] }; // store the full boundary as a geo_shape for Elasticsearch
 	location: { lat: number; lon: number }; // safer than [lon, lat] array
 };
+
+export type ES_GeoShapeData = {
+	type: "Polygon";
+	coordinates: {
+		lat: number;
+		lng: number;
+	}[];
+	title: string;
+	price?: number;
+};

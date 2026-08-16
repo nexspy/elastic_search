@@ -27,6 +27,7 @@ import DrawController from "./DrawController";
 import { useRouter } from "next/dist/client/components/navigation";
 import { PropertyModalView } from "./modal/PropertyModalView";
 import {
+	ES_GeoShapeData,
 	ES_PropertyItem,
 	PropertyInAreaItem,
 	PropertyMapItem,
@@ -74,6 +75,7 @@ const MapMoveLogger = ({ onMoveMoved }: MapMoveProps) => {
 
 interface Props {
 	properties: PropertyInAreaItem[];
+	addProperty: (shape: ES_GeoShapeData) => Promise<void>;
 	refreshProperties?: (
 		minLon: number,
 		minLat: number,
@@ -82,7 +84,11 @@ interface Props {
 	) => void;
 }
 
-export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
+export const LeafletMapView = ({
+	properties,
+	addProperty,
+	refreshProperties,
+}: Props) => {
 	const router = useRouter();
 	const markerPositions: MarkerType[] = [];
 
@@ -375,10 +381,21 @@ export const LeafletMapView = ({ properties, refreshProperties }: Props) => {
 				{activeTool && (
 					<DrawController
 						activeTool={activeTool}
-						onToolEnd={(latLngs: L.LatLng[]) => {
+						onToolEnd={async (latLngs: L.LatLng[]) => {
 							// latlngs is an array of { lat, lng } objects
 							console.log("New polygon points: ", latLngs);
 							setActiveTool(null);
+
+							// add property using the drawn shape
+							const shapeData: ES_GeoShapeData = {
+								type: "Polygon",
+								coordinates: latLngs.map((latLng) => ({
+									lat: latLng.lat,
+									lng: latLng.lng,
+								})),
+								title: "New Property",
+							};
+							await addProperty(shapeData);
 
 							// refetch properties
 							if (refreshProperties && mapBounds) {
