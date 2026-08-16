@@ -1,8 +1,9 @@
-import type { Pool } from "pg";
 import type {
 	AreaBounds,
+	GeoJsonPolygon,
 	GetPropertiesInAreaResponse,
 } from "../types/property/Property.type.ts";
+import type { ES_GeoShapeData } from "../types/property/PropertyResponse.type.ts";
 import { convertPropertyCoordinates } from "../util/conversion.util.ts";
 import { ElasticService } from "./elastic.service.ts";
 import type { ES_PropertyItem } from "../types/property/PropertyResponse.type.ts";
@@ -50,6 +51,30 @@ export class PropertyService {
 			},
 			count: convertedProperties.length,
 			properties: convertedProperties,
+		};
+	}
+
+	// Add a property using shape data
+	public async addPropertyUsingShape(
+		shapeData: ES_GeoShapeData,
+	): Promise<{ property: any; message: string }> {
+		const elasticService = new ElasticService();
+
+		await elasticService
+			.indexPropertyUsingShape(shapeData)
+			.then(() => {
+				console.log(
+					"🍏 Shape Data was index successfully : ",
+					shapeData,
+				);
+			})
+			.catch((error) => {
+				console.error("Error adding property to Elasticsearch:", error);
+			});
+
+		return {
+			property: null,
+			message: "Property added successfully",
 		};
 	}
 }

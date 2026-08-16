@@ -55,5 +55,15 @@ export async function addPropertyUsingShape(req: any, res: any, next: any) {
 		message: "Property added successfully",
 	};
 
+	const propService = new PropertyService();
+
+	try {
+		result = await propService.addPropertyUsingShape(req.body);
+	} catch (error) {
+		console.error("Error adding property using shape:", error);
+		res.status(500).json({ error: "Failed to add property." });
+		return;
+	}
+
 	res.status(200).json(result);
 }
