@@ -82,7 +82,7 @@ interface Props {
 		minLat: number,
 		maxLon: number,
 		maxLat: number,
-	) => void;
+	) => Promise<void>;
 }
 
 export const LeafletMapView = ({
@@ -123,8 +123,8 @@ export const LeafletMapView = ({
 		useState<PropertyViewType | null>(null);
 
 	const handleMapMoved = (
-		center: [number, number],
-		zoom: number,
+		// center: [number, number],
+		// zoom: number,
 		bounds: string,
 	) => {
 		const boundsArray = bounds.split(",").map(Number);
@@ -320,7 +320,7 @@ export const LeafletMapView = ({
 				{/* //! Map move event handler */}
 				<MapMoveLogger
 					onMoveMoved={(center, zoom, bounds) =>
-						handleMapMoved(center, zoom, bounds)
+						handleMapMoved(bounds)
 					}
 				/>
 				<MapReadyLogger onMapLoaded={handleMapLoaded} />

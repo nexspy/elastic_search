@@ -62,8 +62,8 @@ export const LeafletMapWrapper = () => {
 					console.log("-- lets save this prop --", shape);
 					await handleAddProperty(shape);
 				}}
-				refreshProperties={(minLon, minLat, maxLon, maxLat) =>
-					fetchProperties(minLon, minLat, maxLon, maxLat)
+				refreshProperties={async (minLon, minLat, maxLon, maxLat) =>
+					await fetchProperties(minLon, minLat, maxLon, maxLat)
 				}
 			/>
 		</div>
