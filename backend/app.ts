@@ -7,6 +7,9 @@ import routes from "./src/routes/index.ts";
 const app = express();
 const port = process.env.PORT || 5020;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // allow CORS
 app.use(
 	cors({
