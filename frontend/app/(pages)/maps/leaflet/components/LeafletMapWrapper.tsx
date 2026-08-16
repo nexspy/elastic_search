@@ -35,16 +35,6 @@ export const LeafletMapWrapper = () => {
 	// add property using shape
 	const handleAddProperty = async (shape: ES_GeoShapeData) => {
 		try {
-			const shapeAddData = {
-				type: "Polygon",
-				coordinates: [
-					[
-						[85.3, 27.65],
-						[85.4, 27.65],
-					],
-				],
-			};
-
 			// add property, send data to backend
 			const res = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/properties/add-using-shape`,
@@ -53,7 +43,7 @@ export const LeafletMapWrapper = () => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(shapeAddData),
+					body: JSON.stringify(shape),
 				},
 			);
 			const data = await res.json();
@@ -74,7 +64,7 @@ export const LeafletMapWrapper = () => {
 				properties={properties}
 				addProperty={async (shape: ES_GeoShapeData) => {
 					console.log("-- lets save this prop --", shape);
-					// await handleAddProperty(shape);
+					await handleAddProperty(shape);
 				}}
 				refreshProperties={(minLon, minLat, maxLon, maxLat) =>
 					fetchProperties(minLon, minLat, maxLon, maxLat)

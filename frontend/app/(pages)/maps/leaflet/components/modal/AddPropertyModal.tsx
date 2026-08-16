@@ -3,7 +3,7 @@ import { IoCloseSharp } from "react-icons/io5";
 
 interface Props {
 	onClose?: () => void;
-	onSave?: (propertyName: string) => void;
+	onSave: (propertyName: string) => void;
 }
 
 export const AddPropertyModal = ({ onClose, onSave }: Props) => {
@@ -29,7 +29,8 @@ export const AddPropertyModal = ({ onClose, onSave }: Props) => {
 			return;
 		}
 
-		// save
+		//! save
+		onSave(propertyName);
 	};
 
 	return (

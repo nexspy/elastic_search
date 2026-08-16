@@ -101,6 +101,9 @@ export const LeafletMapView = ({
 		useState<boolean>(false);
 	const [activeTool, setActiveTool] = useState<"polygon" | null>(null);
 
+	const [newPropertyLatLngs, setNewPropertyLatLngs] = useState<
+		L.LatLng[] | null
+	>(null);
 	const [propertiesList, setPropertiesList] = useState<PropertyMapItem[]>([]);
 
 	// current mapbounds
@@ -387,34 +390,12 @@ export const LeafletMapView = ({
 						onToolEnd={async (latLngs: L.LatLng[]) => {
 							setShowAddPropertyModal(true);
 
+							// save latlngs to state
+							setNewPropertyLatLngs(latLngs);
+
 							// latlngs is an array of { lat, lng } objects
 							console.log("New polygon points: ", latLngs);
 							setActiveTool(null);
-
-							// add property using the drawn shape
-							const shapeData: ES_GeoShapeData = {
-								type: "Polygon",
-								coordinates: latLngs.map((latLng) => ({
-									lat: latLng.lat,
-									lng: latLng.lng,
-								})),
-								title: "New Property",
-							};
-							await addProperty(shapeData);
-
-							// refetch properties
-							if (refreshProperties && mapBounds) {
-								const minLon = mapBounds[0][1];
-								const minLat = mapBounds[0][0];
-								const maxLon = mapBounds[1][1];
-								const maxLat = mapBounds[1][0];
-								refreshProperties(
-									minLon,
-									minLat,
-									maxLon,
-									maxLat,
-								);
-							}
 						}}
 					/>
 				)}
@@ -429,8 +410,31 @@ export const LeafletMapView = ({
 
 			{showAddPropertyModal && (
 				<AddPropertyModal
-					onSave={(propertyName: string) => {
-						// save
+					onSave={async (propertyName: string) => {
+						// add property using the drawn shape
+						const shapeData: ES_GeoShapeData = {
+							type: "Polygon",
+							coordinates: newPropertyLatLngs!.map((latLng) => ({
+								lat: latLng.lat,
+								lng: latLng.lng,
+							})),
+							title: propertyName,
+						};
+
+						//! Add new property
+						await addProperty(shapeData);
+
+						// refetch properties
+						if (refreshProperties && mapBounds) {
+							const minLon = mapBounds[0][1];
+							const minLat = mapBounds[0][0];
+							const maxLon = mapBounds[1][1];
+							const maxLat = mapBounds[1][0];
+							refreshProperties(minLon, minLat, maxLon, maxLat);
+						}
+
+						// close modal
+						setShowAddPropertyModal(false);
 					}}
 					onClose={() => setShowAddPropertyModal(false)}
 				/>
