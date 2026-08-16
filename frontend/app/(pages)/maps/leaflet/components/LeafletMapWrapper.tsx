@@ -54,10 +54,6 @@ export const LeafletMapWrapper = () => {
 		}
 	};
 
-	useEffect(() => {
-		fetchProperties();
-	}, []);
-
 	return (
 		<div>
 			<LeafletMapView

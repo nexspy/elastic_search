@@ -194,6 +194,13 @@ export const LeafletMapView = ({
 			[startingPosition[0] + 0.01, startingPosition[1] + 0.01], // Northeast corner
 		];
 		setMapBounds(initialBounds);
+
+		refreshProperties?.(
+			initialBounds[0][1],
+			initialBounds[0][0],
+			initialBounds[1][1],
+			initialBounds[1][0],
+		);
 	}, []);
 
 	return (
