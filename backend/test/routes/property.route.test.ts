@@ -6,6 +6,7 @@ import {
 	getPropertiesInArea,
 	getPropertyByName,
 } from "../../src/routes/property.route.ts";
+import { PropertyService } from "../../src/services/property.service.ts";
 
 type MockBody = {
 	body: unknown;
@@ -59,12 +60,18 @@ test("getPropertiesInArea returns 200 with property data", async () => {
 	assert.equal((res as any).statusCode, 200);
 });
 
-test("getPropertyByName returns empty array if no property found", async () => {
+test("getPropertyByName returns empty array if no property found", async (t) => {
 	const req = {
 		query: {
 			title: "NonExistentProperty",
 		},
 	} as unknown as Request;
+
+	t.mock.method(
+		PropertyService.prototype,
+		"getPropertiesByName",
+		async () => [], // Mock the service to return an empty array
+	);
 
 	const res = createMockRes();
 	const next = (() => {}) as NextFunction;
@@ -73,6 +80,38 @@ test("getPropertyByName returns empty array if no property found", async () => {
 	await getPropertyByName(req, res, next);
 
 	assert.equal((res as any).statusCode, 200);
-	console.log("res", res);
+	// console.log("res", res);
 	assert.deepEqual((res as any).body, []);
+});
+
+test("getPropertyByName returns non empty array if property found", async (t) => {
+	const req = {
+		query: {
+			title: "Beautiful House",
+		},
+	} as unknown as Request;
+
+	const properties = [
+		{
+			id: "1",
+			title: "Beautiful House",
+			description: "A beautiful house with a garden.",
+			price: 500000,
+			location: { lat: 37.7749, lon: -122.4194 },
+		},
+	];
+	t.mock.method(
+		PropertyService.prototype,
+		"getPropertiesByName",
+		async () => properties as never, // Mock the service to return a non-empty array
+	);
+
+	const res = createMockRes();
+	const next = (() => {}) as NextFunction;
+
+	// Call the getPropertyByName function with the mock request, response, and next function
+	await getPropertyByName(req, res, next);
+
+	assert.equal((res as any).statusCode, 200);
+	assert.deepEqual((res as any).body, properties);
 });
