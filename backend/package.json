@@ -10,7 +10,7 @@
 		"dev": "nodemon --watch . --ext ts,js,json --exec tsx app.ts",
 		"start": "tsx app.ts",
 		"typecheck": "tsc --noEmit",
-		"test": "tsx --test test/routes/*.test.ts"
+		"test": "tsx --test test/*.test.ts test/routes/*.test.ts"
 	},
 	"dependencies": {
 		"@elastic/elasticsearch": "^8.19.2",
