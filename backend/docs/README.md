@@ -12,8 +12,10 @@ Provides endpoint for uploading gml files, these file's data are indexed in elas
 
 - [Architecture](./Architecture.md)
 
+- [Automated Testing](./AutomatedTesting.md)
+
 - [Coordinate System](./Coordinates.md)
 
-- [Requests](./Requests.md)
-
 - [Elastic Search](./ElasticSearch.md)
+
+- [Requests](./Requests.md)
