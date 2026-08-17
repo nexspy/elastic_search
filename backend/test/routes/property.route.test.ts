@@ -2,7 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import type { Request, Response, NextFunction } from "express";
 
-import { getPropertiesInArea } from "../../src/routes/property.route.ts";
+import {
+	getPropertiesInArea,
+	getPropertyByName,
+} from "../../src/routes/property.route.ts";
 
 type MockBody = {
 	body: unknown;
@@ -54,4 +57,22 @@ test("getPropertiesInArea returns 200 with property data", async () => {
 	await getPropertiesInArea(req, res, next);
 
 	assert.equal((res as any).statusCode, 200);
+});
+
+test("getPropertyByName returns empty array if no property found", async () => {
+	const req = {
+		query: {
+			title: "NonExistentProperty",
+		},
+	} as unknown as Request;
+
+	const res = createMockRes();
+	const next = (() => {}) as NextFunction;
+
+	// Call the getPropertyByName function with the mock request, response, and next function
+	await getPropertyByName(req, res, next);
+
+	assert.equal((res as any).statusCode, 200);
+	console.log("res", res);
+	assert.deepEqual((res as any).body, []);
 });
