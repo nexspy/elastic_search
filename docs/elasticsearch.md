@@ -12,6 +12,8 @@ Elasticsearch is a highly scalable, open-source search and analytics engine buil
 
 [Running Search Query](#running-search-query)
 
+- [Fuzzy Search](#fuzzy-search)
+
 [Running Aggregation Query](#aggregation-query)
 
 [Running query in Kibana](#running-query-in-kibana)
@@ -115,6 +117,40 @@ Here, we are searching for documents with brand equal to Apple
 	}
 }
 ```
+
+### Fuzzy Search
+
+For typo-tolerance search, use match with **fuzziness**
+
+```json
+{
+	"query": {
+		"match": {
+			"title": {
+				"query": "Privte",
+				"fuzziness": "AUTO"
+			}
+		}
+	}
+}
+```
+
+For more advance search, where we have to search for phrase and not only a single word, we can use **match_phrase**
+
+```json
+{
+	"query": {
+		"match_phrase": {
+			"title": {
+				"query": "Privte",
+				"fuzziness": "AUTO"
+			}
+		}
+	}
+}
+```
+
+Note: We can also search for **Synonyms** using **analysis** instead of match.
 
 ## Aggregation Query
 
