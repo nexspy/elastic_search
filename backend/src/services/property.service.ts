@@ -54,6 +54,36 @@ export class PropertyService {
 		};
 	}
 
+	/**
+	 * Get properties by name
+	 * @param title The title of the property to search for.
+	 * @param fuzzy [Optional] Boolean flag to enable fuzzy search. Default is false.
+	 * @returns
+	 */
+	public async getPropertiesByName(
+		title: string,
+		size: number = 100,
+		fuzzy: boolean = false,
+	): Promise<ES_PropertyItem[]> {
+		const elasticService = new ElasticService();
+
+		let properties: ES_PropertyItem[] = [];
+
+		await elasticService
+			.getPropertyByName(title, size, fuzzy)
+			.then((result) => {
+				properties = result;
+			})
+			.catch((error) => {
+				console.error(
+					"Error fetching property by name from Elasticsearch:",
+					error,
+				);
+			});
+
+		return properties;
+	}
+
 	// Add a property using shape data
 	public async addPropertyUsingShape(
 		shapeData: ES_GeoShapeData,

@@ -180,6 +180,33 @@ export class ElasticService {
 		return response.hits.hits.map((hit) => hit._source);
 	}
 
+	/**
+	 * Search for a property by its title in Elasticsearch.
+	 * @param title Name of the property
+	 * @param fuzzy Boolean flag
+	 * @returns
+	 */
+	public async getPropertyByName(
+		title: string,
+		size?: number,
+		fuzzy?: boolean,
+	): Promise<any> {
+		const response = await this.client.search({
+			index: this.indexName,
+			query: {
+				match: {
+					title: {
+						query: title,
+						fuzziness: fuzzy ? "AUTO" : "0",
+					},
+				},
+			},
+			size: size ?? 100,
+		});
+
+		return response.hits.hits.map((hit) => hit._source);
+	}
+
 	// change search size for getProperties method
 	public setSearchSize(size: number): void {
 		this.searchSize = size;

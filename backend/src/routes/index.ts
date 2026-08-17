@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	addPropertyUsingShape,
 	getPropertiesInArea,
+	getPropertyByName,
 } from "./property.route.ts";
 
 const router = Router();
@@ -11,6 +12,8 @@ import uploaderRouter from "./uploader.route.ts";
 router.get("/", (_req, res) => {
 	res.json({ message: "Backend is running" });
 });
+
+router.get("/properties/by-title", getPropertyByName);
 
 router.get("/properties/in-area", getPropertiesInArea);
 

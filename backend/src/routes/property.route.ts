@@ -46,6 +46,40 @@ export async function getPropertiesInArea(req: any, res: any, next: any) {
 }
 
 /**
+ * GET : get property by name
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+export async function getPropertyByName(req: any, res: any, next: any) {
+	// console.log("req", req.query);
+	const title = req.query.title as string | undefined;
+	const fuzzy = req.query.fuzzy === "true"; // Convert to boolean
+	const size = req.query.size ? parseInt(req.query.size as string, 10) : 100;
+
+	if (!title) {
+		res.status(400).json({
+			error: "Missing title parameter.",
+		});
+		return;
+	}
+
+	let result: any | null = null;
+
+	try {
+		const propService = new PropertyService();
+
+		result = await propService.getPropertiesByName(title, size, fuzzy);
+	} catch (error) {
+		console.error("Error fetching property by name:", error);
+		res.status(500).json({ error: "Failed to fetch property." });
+	}
+
+	res.status(200).json(result);
+}
+
+/**
  * POST - add property using shape
  *  - FE will send the shape data in the request body
  */
