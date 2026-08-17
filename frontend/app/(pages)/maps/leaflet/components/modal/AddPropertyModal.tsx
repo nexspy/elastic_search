@@ -1,3 +1,4 @@
+import { generateRandomPropertyName } from "@/app/util/random.util";
 import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
@@ -8,7 +9,8 @@ interface Props {
 
 export const AddPropertyModal = ({ onClose, onSave }: Props) => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const [propertyName, setPropertyName] = useState<string>("");
+	const defaultName = generateRandomPropertyName(12);
+	const [propertyName, setPropertyName] = useState<string>(defaultName);
 
 	const handleSubmit = () => {
 		if (!propertyName) {
